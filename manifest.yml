@@ -1,0 +1,4 @@
+name: watson-discover-news-search
+command: npm start
+services:
+  - my-discovery-service

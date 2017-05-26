@@ -1,0 +1,39 @@
+{
+  "name": "watson-discover-news-search",
+  "version": "1.0.0",
+  "private": true,
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "start:watch": "nodemon index.js",
+    "bootstrap": "cp .env.sample .env"
+  },
+  "author": "Ankur Patel <ankur@encoredevlabs.com> (https://www.encoredevlabs.com/)",
+  "dependencies": {
+    "babelify": "^7.3.0",
+    "body-parser": "^1.17.2",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.3",
+    "express-browserify": "^1.0.2",
+    "express-react-views": "^0.10.2",
+    "isomorphic-fetch": "^2.2.1",
+    "moment": "^2.18.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "recharts": "^1.0.0-alpha.0",
+    "uglifyify": "^3.0.4",
+    "watson-developer-cloud": "^2.32.1",
+    "watson-react-components": "^0.6.9"
+  },
+  "babel": {
+    "presets": [
+      "es2015",
+      "react"
+    ],
+    "ignore": "node_modules"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  }
+}
