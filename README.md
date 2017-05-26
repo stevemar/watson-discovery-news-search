@@ -1,1 +1,1 @@
-# express-react-universal-app
+# Watson Discovery News Search Web App
