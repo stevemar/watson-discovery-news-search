@@ -1,5 +1,5 @@
 {
-  "name": "watson-discover-news-search",
+  "name": "watson-discovery-news-search",
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
@@ -7,7 +7,9 @@
   "scripts": {
     "start": "node index.js",
     "start:watch": "nodemon index.js",
-    "bootstrap": "cp .env.sample .env"
+    "bootstrap": "cp .env.sample .env",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
   },
   "author": "Ankur Patel <ankur@encoredevlabs.com> (https://www.encoredevlabs.com/)",
   "dependencies": {
@@ -19,6 +21,7 @@
     "express-react-views": "^0.10.2",
     "isomorphic-fetch": "^2.2.1",
     "moment": "^2.18.1",
+    "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "recharts": "^1.0.0-alpha.0",
@@ -34,6 +37,9 @@
     "ignore": "node_modules"
   },
   "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-plugin-import": "^2.3.0",
+    "eslint-plugin-react": "^7.0.1",
     "nodemon": "^1.11.0"
   }
 }

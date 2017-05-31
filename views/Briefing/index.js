@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const Briefing = props => (
   <div>
@@ -8,14 +9,14 @@ const Briefing = props => (
         <div className="widget--header-spacer" />
       </div>
       <div className="top-stories--list">
-        {props.items.map(summary => <h4>{summary}</h4>)}
+        {props.items.map((summary, i) => <h4 key={`${i}`}>{summary}</h4>)}
       </div>
     </div>
   </div>
 );
 
 Briefing.propTypes = {
-  items: React.PropTypes.string.isRequired
+  items: PropTypes.string.isRequired
 };
 
 module.exports = Briefing;

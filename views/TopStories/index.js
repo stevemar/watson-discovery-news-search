@@ -1,11 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Icon } from 'watson-react-components';
 
 const Story = props => (
   <div className="story">
       <div className="story--date">
-        {moment(props.date*1000).format("M/D/YYYY hh:MMa")}
+        {moment(props.date * 1000).format('M/D/YYYY hh:MMa')}
       </div>
     <a
       className="story--title base--a results--a"
@@ -25,16 +25,17 @@ const Story = props => (
 );
 
 Story.propTypes = {
-  title: React.PropTypes.string.isRequired,
-  url: React.PropTypes.string.isRequired,
-  host: React.PropTypes.string
+  title: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  host: PropTypes.string,
+  date: PropTypes.string.isRequired
 };
 
 const TopStories = props => (
   <div>
     <div className="top-stories widget">
       <div className="widget--header">
-        <h2 className="base--h2 widget--header-title">Top News About Mergers and Acquisition</h2>
+        <h2 className="base--h2 widget--header-title">Top News</h2>
         <div className="widget--header-spacer" />
       </div>
       <div className="top-stories--list">
@@ -53,12 +54,7 @@ const TopStories = props => (
 );
 
 TopStories.propTypes = {
-  stories: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
-  query: React.PropTypes.shape({
-    text: React.PropTypes.string,
-    date: React.PropTypes.object,
-  }),
-  onSortChange: React.PropTypes.func.isRequired,
+  stories: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 module.exports = TopStories;

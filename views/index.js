@@ -3,16 +3,16 @@ const DefaultLayout = require('./layouts/default');
 const Main = require('./main');
 
 function objectWithoutProperties (object, properties) {
-  'use strict'
+  'use strict';
 
-  var obj = {}
-  var keys = Object.keys(object)
+  var obj = {};
+  var keys = Object.keys(object);
   keys.forEach((key) => {
     if (!~properties.indexOf(key)) {
-      obj[key] = object[key]
+      obj[key] = object[key];
     }
-  })
-  return obj
+  });
+  return obj;
 }
 
 class Application extends React.Component {

@@ -1,12 +1,13 @@
-import { Header, Jumbotron, Footer } from 'watson-react-components';
 import React from 'react';
+import PropTypes from 'prop-types';
+import { Header, Jumbotron } from 'watson-react-components';
 
 class DefaultLayout extends React.Component {
   render() {
     return (
       <html>
         <head>
-          <title>Watson Discover News Merger and Acquisition</title>
+          <title>News using Watson Discovery Service</title>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -23,13 +24,13 @@ class DefaultLayout extends React.Component {
             subBreadcrumbsUrl=""
           />
           <Jumbotron
-            serviceName="News About Merger and Aquisition of AI companies"
+            serviceName="News using Watson Discovery Service"
             repository=""
             documentation="http://www.ibm.com/watson/developercloud/doc/discovery/index.html"
             apiReference="http://www.ibm.com/watson/developercloud/discovery/api"
             startInBluemix=""
             version="GA"
-            description="This is a web app to help you find News related to Merger and Acquisition in the AI Space using Watson Discovery Service."
+            description="This is a web app to help you find News related to a specific topic such as (Merger and Acquisition, Election, Technology and Computing, etc.) using Watson Discovery Service."
           />
           <main>{this.props.children}</main>
           <script
@@ -43,5 +44,11 @@ class DefaultLayout extends React.Component {
     );
   }
 }
+
+DefaultLayout.propTypes = {
+  description: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  initialData: PropTypes.string.isRequired
+};
 
 module.exports = DefaultLayout;

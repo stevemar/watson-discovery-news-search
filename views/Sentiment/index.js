@@ -1,12 +1,14 @@
 import React from 'react';
-import { BarChart, XAxis, YAxis, Bar, CartesianGrid, Legend, Tooltip } from 'recharts';
+import PropTypes from 'prop-types';
+import { BarChart, XAxis, YAxis, Bar, CartesianGrid, Legend } from 'recharts';
+import { Colors } from 'watson-react-components';
 
 const Sentiment = props => {
   return (
     <div>
       <div className="top-stories widget">
         <div className="widget--header">
-          <h2 className="base--h2 widget--header-title">Sentiment about Mergers and Aquisitions in the Market for AI Companies</h2>
+          <h2 className="base--h2 widget--header-title">Sentiment expressed in the news</h2>
           <div className="widget--header-spacer" />
         </div>
         <div className="top-stories--list">
@@ -14,16 +16,19 @@ const Sentiment = props => {
             <XAxis dataKey="Article Count" />
             <YAxis />
             <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip />
             <Legend />
-            <Bar dataKey="negative" fill="#cd92ff" />
-            <Bar dataKey="neutral" fill="#9855d4" />
-            <Bar dataKey="positive" fill="#734098" />
+            <Bar dataKey="negative" fill={Colors.red_10} />
+            <Bar dataKey="neutral" fill={Colors.gray_10} />
+            <Bar dataKey="positive" fill={Colors.green_10} />
           </BarChart>
         </div>
       </div>
     </div>
   );
-}
+};
+
+Sentiment.propTypes = {
+  data: PropTypes.object.isRequired
+};
 
 module.exports = Sentiment;

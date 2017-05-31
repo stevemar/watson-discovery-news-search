@@ -1858,7 +1858,8 @@ input:focus, button:focus, textarea:focus {
 
 .query--flex-container {
   display: flex;
-  align-items: flex-end;
+  align-items: flex-center;
+  flex-direction: column;
 }
 .query--flex-container .query--text-input-container {
   width: 100%;
