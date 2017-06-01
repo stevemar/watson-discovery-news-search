@@ -5,7 +5,7 @@ const expressBrowserify = require('express-browserify');
 
 const app = express();
 
-app.set('views', path.join(__dirname, '..', 'views'));
+app.set('views', path.join(__dirname, '..', 'src'));
 app.set('view engine', 'js');
 app.engine('js', require('express-react-views').createEngine());
 

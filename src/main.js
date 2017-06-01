@@ -7,10 +7,6 @@ import Sentiment from './Sentiment';
 import Search from './Search';
 
 
-// const hasResults = (entities) =>
-//   entities.aggregations && entities.aggregations.length > 0 &&
-//   entities.aggregations[0].field === 'enrichedTitle.entities.text';
-
 const parseData = data => {
   data.briefingItems = data.aggregations[0]
                            .aggregations[0]
@@ -24,49 +20,6 @@ const parseData = data => {
                        , {});
 
   return data;
-  // const parsedData = {
-  //   results: data.results, // Top Results
-  //   entities: {}, // Topic cloud
-  //   sentiments: null, // Sentiment by source
-  //   sentiment: null, // Overall sentiment
-  //   mentions: null, // Mentions and Sentiments
-  // };
-
-  // data.aggregations.forEach((aggregation) => {
-  //   // sentiments by source
-  //   if (aggregation.type === 'term' && aggregation.field.startsWith('blekko.basedomain')) {
-  //     parsedData.sentiments = aggregation;
-  //   }
-  //   // Overall sentiment
-  //   if (aggregation.type === 'term' && aggregation.field.startsWith('docSentiment')) {
-  //     parsedData.sentiment = aggregation;
-  //   }
-
-  //   if (aggregation.type === 'term' && aggregation.field === 'enrichedTitle.concepts.text') {
-  //     parsedData.entities.topics = aggregation.results;
-  //   }
-
-  //   // Mentions and sentiments
-  //   if (aggregation.type === 'filter' &&
-  //     'aggregations' in aggregation &&
-  //     aggregation.aggregations[0].field === 'enrichedTitle.entities.text') {
-  //     parsedData.mentions = aggregation;
-  //   }
-
-  //   if (aggregation.type === 'nested' && aggregation.path === 'enrichedTitle.entities') {
-  //     const entities = aggregation.aggregations;
-  //     if (entities && entities.length > 0 && hasResults(entities[0])) {
-  //       if (entities[0].match === 'enrichedTitle.entities.type:Company') {
-  //         parsedData.entities.companies = entities[0].aggregations[0].results;
-  //       }
-  //       if (entities[0].match === 'enrichedTitle.entities.type:Person') {
-  //         parsedData.entities.people = entities[0].aggregations[0].results;
-  //       }
-  //     }
-  //   }
-  // });
-
-  // return parsedData;
 };
 
 class Main extends React.Component {
