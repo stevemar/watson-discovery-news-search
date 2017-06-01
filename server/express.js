@@ -30,5 +30,32 @@ if (!isDev) {
 // Client Side Bundle route
 app.get('/js/bundle.js', browserifyier);
 
+// Slack Bot OAuth
+app.get('/auth/redirect', (req, res) => {
+  const url = `https://slack.com/api/oauth.access?code=${req.query.code}` +
+    `&client_id=${process.env.SLACK_CLIENT_ID}` +
+    `&client_secret=${process.env.SLACK_CLIENT_SECRET}` +
+    `&redirect_uri=${process.env.SLACK_REDIRECT_URI}`;
+  
+  fetch(url, {
+    headers: {
+      'Accept': 'application/json'
+    },
+    method: 'GET'
+  })
+  .then(response => {
+    if (response.ok) {
+      response.json()
+        .then(() => {
+          res.send('Success!');
+        })
+        .catch(() => res.send('Error parsing json response').status(200).end());
+    } else {
+      console.error(response);
+      res.send('Error').status(200).end();
+    }
+  })
+  .catch(() => res.send('Error').status(200).end());
+});
 
 module.exports = app;
