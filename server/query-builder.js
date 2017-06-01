@@ -1,6 +1,5 @@
 const aggregations = [
-  'nested(relations).term(relations.sentence)',
-  'nested(entities).filter(entities.type::Company).term(entities.sentiment.type)'
+  'term(docSentiment.type)'
 ];
 
 module.exports = {
@@ -16,10 +15,11 @@ module.exports = {
       environment_id: this.environment_id,
       collection_id: this.collection_id,
       count: 10,
-      sort: '-_score,-blekko.chrondate',
+      sort: '-_score',
       passages: true,
       highlight: true,
-      return: 'enrichedTitle.text,title,url,host,blekko.chrondate,score,id,entities.text,relations',
+      filter: 'blekko.hostrank>200',
+      return: 'enrichedTitle.text,text,title,url,host,blekko.chrondate,blekko.hostrank,score,id,entities.text,docSentiment.type',
       aggregations
     }, queryOpts);
 

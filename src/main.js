@@ -8,15 +8,10 @@ import Search from './Search';
 
 
 const parseData = data => {
-  data.briefingItems = data.aggregations[0]
-                           .aggregations[0]
-                           .results
-                           .map(i => i.key);
-  data.sentiment = data.aggregations[1]
-                       .aggregations[0]
-                       .aggregations[0]
-                       .results.reduce((a, i) =>
-                        Object.assign(a, {[i.key]: i.matching_results})
+  data.briefingItems = data.results.map(result => result.text);
+  data.sentiment = data.aggregations[0]
+                       .results.reduce((accumulator, result) =>
+                        Object.assign(accumulator, { [result.key]: result.matching_results })
                        , {});
 
   return data;

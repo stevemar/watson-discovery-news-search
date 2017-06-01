@@ -71,9 +71,9 @@ function createServer() {
 
 function constructTaxonomyLabel({ categories, query }) {
   return categories
-    .reduce((result, c) => result.concat(c.label.split('/').slice(1)), [])
-    .filter(c => query.indexOf(c) > -1)
-    .map(c => `"${c}"`)
+    .reduce((result, category) => result.concat(category.label.split('/').slice(1)), [])
+    .filter(category => query.indexOf(category) > -1)
+    .map(category => `"${category}"^2`)
     .join(',');
 }
 
