@@ -6,17 +6,6 @@ import Briefing from './Briefing';
 import Sentiment from './Sentiment';
 import Search from './Search';
 
-
-const parseData = data => {
-  data.briefingItems = data.results.map(result => result.text);
-  data.sentiment = data.aggregations[0]
-                       .results.reduce((accumulator, result) =>
-                        Object.assign(accumulator, { [result.key]: result.matching_results })
-                       , {});
-
-  return data;
-};
-
 class Main extends React.Component {
 
   constructor(...props) {
@@ -49,6 +38,8 @@ class Main extends React.Component {
         response.json()
           .then(json => {
             this.setState({ data: parseData(json), loading: false });
+            setTimeout(() =>
+              window.scrollTo(0, document.querySelector('main').getBoundingClientRect().top), 0);
           });
       } else {
         response.json()
@@ -110,5 +101,25 @@ class Main extends React.Component {
     );
   }
 }
+
+const getTitleForItem = item => item.enrichedTitle ? item.enrichedTitle.text : (item.title || 'Untitled');
+
+const parseData = data => {
+  data.sentiment = data.aggregations[0]
+                       .results.reduce((accumulator, result) =>
+                        Object.assign(accumulator, { [result.key]: result.matching_results })
+                       , {});
+
+  const uniqResultsObj = data.results.reduce((result, item) =>
+    Object.assign(result, { [getTitleForItem(item)]: item }), {});
+  data.results = Object.keys(uniqResultsObj).map(title => uniqResultsObj[title]);
+
+  data.briefingItems = data.results.map(item => ({
+    title: getTitleForItem(item),
+    text: item.text
+  }));
+
+  return data;
+};
 
 module.exports = Main;

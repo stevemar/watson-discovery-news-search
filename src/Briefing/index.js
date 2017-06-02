@@ -9,14 +9,20 @@ const Briefing = props => (
         <div className="widget--header-spacer" />
       </div>
       <div className="top-stories--list">
-        {props.items.map((summary, i) => <h4 key={`${i}`}>{summary}</h4>)}
+        {props.items.map(summary => (
+          <div key={summary.title}>
+            <h4>{summary.title}</h4>
+            <p>{summary.text}</p>
+            <hr />
+          </div>
+        ))}
       </div>
     </div>
   </div>
 );
 
 Briefing.propTypes = {
-  items: PropTypes.string.isRequired
+  items: PropTypes.object.isRequired
 };
 
 module.exports = Briefing;

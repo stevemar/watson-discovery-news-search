@@ -3,6 +3,22 @@ import PropTypes from 'prop-types';
 import { Header, Jumbotron } from 'watson-react-components';
 
 class DefaultLayout extends React.Component {
+  getDescription() {
+    return (
+      <p>
+        <p>
+          This is a web app to help you find News related to a specific topic using Watson Discovery Service.
+        </p>
+        <p>Try out some of the following queries:</p>
+        <ul>
+          <li>Merger and Acquisition in Artificial Intelligence industry</li>
+          <li>Technology and Computing</li>
+          <li>Wearable technology used in sports</li>
+        </ul>  
+      </p>
+    );
+  }
+
   render() {
     return (
       <html>
@@ -30,7 +46,7 @@ class DefaultLayout extends React.Component {
             apiReference="http://www.ibm.com/watson/developercloud/discovery/api"
             startInBluemix=""
             version="GA"
-            description="This is a web app to help you find News related to a specific topic such as (Merger and Acquisition, Election, Technology and Computing, etc.) using Watson Discovery Service."
+            description={this.getDescription()}
           />
           <main>{this.props.children}</main>
           <script

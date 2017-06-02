@@ -39,24 +39,15 @@ export default class Search extends React.Component {
     this.props.onTabChange(event.target.value);
   }
 
-  handleInputChange(event) {
-    const value = event.target.value;
-    this.setState({
-      searchQuery: value
-    });
-  }
-
   handleKeyPress(event) {
-    if (event.key === 'Enter' && event.target.value.match(/[^\s]+/)) {
+    const searchValue = event.target.value;
+    if (event.key === 'Enter' && searchValue.match(/[^\s]+/)) {
       this.props.onSearchQueryChange({
-        searchQuery: this.state.searchQuery
+        searchQuery: searchValue
       });
-    }
-  }
-
-  handleSearchClick() {
-    if (this.state.searchQuery && this.state.searchQuery.match(/[^\s]+/)) {
-      this.props.onSearchQueryChange(this.state.searchQuery);
+      this.setState({
+        searchQuery: searchValue
+      });
     }
   }
 
@@ -70,12 +61,11 @@ export default class Search extends React.Component {
             <div className="query--text-input-container">
               <div className="query--search-container">
                 <TextInput
-                  placeholder="What topic are you interested in?"
+                  placeholder="Acquisition in Insurance industry or Technology and Computing"
                   onKeyPress={this.handleKeyPress.bind(this)}
-                  onInput={this.handleInputChange.bind(this)}
                   defaultValue={this.state.searchQuery}
                 />
-                <div onClick={this.handleSearchClick} className="query--icon-container">
+                <div className="query--icon-container">
                   <Icon type="search" size="regular" fill="#ffffff" />
                 </div>
               </div>
