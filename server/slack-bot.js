@@ -128,7 +128,7 @@ controller.hears(['whats in the news', 'news please'], 'direct_message,direct_me
             .then(apiResponse => {
               if (apiResponse.ok) {
                 apiResponse.json()
-                  .then((json) => {
+                  .then(json => {
                     bot.reply(message, 'Here are some news articles...');
                     for (let i = 0; i < 3; i++) {
                       setTimeout(() => {

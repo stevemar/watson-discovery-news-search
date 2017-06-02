@@ -44,16 +44,16 @@ class Main extends React.Component {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ query: query.searchQuery })
     })
-    .then((response) => {
+    .then(response => {
       if (response.ok) {
         response.json()
-          .then((json) => {
+          .then(json => {
             this.setState({ data: parseData(json), loading: false });
           });
       } else {
         response.json()
-        .then((error) => this.setState({ error, loading: false }))
-        .catch((errorMessage) => {
+        .then(error => this.setState({ error, loading: false }))
+        .catch(errorMessage => {
           // eslint-disable-next-line no-console
           console.error(errorMessage);
           this.setState({
