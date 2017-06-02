@@ -12,8 +12,9 @@ class DefaultLayout extends React.Component {
         <p>Try out some of the following queries:</p>
         <ul>
           <li>Merger and Acquisition in Artificial Intelligence industry</li>
-          <li>Technology and Computing</li>
-          <li>Wearable technology used in sports</li>
+          <li>Tech IPOs</li>
+          <li>Acquisition in Insurance Industry</li>
+          <li>Healthcare startups</li>
         </ul>  
       </p>
     );
