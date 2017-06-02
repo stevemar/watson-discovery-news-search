@@ -8,20 +8,19 @@ class Sentiment extends React.Component {
   constructor(...args) {
     super(...args);
     this.handleResize = this.handleResize.bind(this);
-    if (typeof window !== 'undefined') {
-      this.state = {
-        width: (window.innerWidth - 70)
-      };
-    }
+    this.state = { width: 0 };
   }
 
   handleResize() {
     this.setState({
-      width: (window.innerWidth - 70)
+      width: this.el.getBoundingClientRect().width - 64
     });
   }
 
   componentDidMount() {
+    this.setState({
+      width: this.el.getBoundingClientRect().width - 64
+    });
     window.addEventListener('resize', this.handleResize);
   }
 
@@ -31,7 +30,7 @@ class Sentiment extends React.Component {
 
   render() {
     return (
-      <div>
+      <div ref={el => { this.el = el; }}>
         <div className="top-stories widget">
           <div className="widget--header">
             <h2 className="base--h2 widget--header-title">Sentiment Expressed</h2>
