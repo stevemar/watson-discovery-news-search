@@ -74,8 +74,8 @@ function constructTaxonomyLabel({ categories, query }) {
   const searchQuery = query.toLowerCase();
   return categories
     .reduce((result, category) => result.concat(category.label.split('/').slice(1)), [])
-    .filter(category => searchQuery.indexOf(category) > -1 || category.split(' ').some(word => searchQuery.indexOf(word) > -1))
-    .map(category => `"${category}"`)
+    .filter(category => searchQuery.indexOf(category) > -1)
+    .map(category => `"${category}"^2`)
     .join(',');
 }
 
