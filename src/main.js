@@ -64,7 +64,7 @@ class Main extends React.Component {
     }
 
     switch (this.state.selectedTab) {
-    case 'news':      return <TopStories stories={data.results} categories={data.taxonomy} />;
+    case 'news':      return <TopStories stories={data.results} categories={data.categories} />;
     case 'briefing':  return <Briefing items={data.briefingItems} />;
     case 'entities':  return <Sentiment data={data.sentiment} />;
     default:          return null;
@@ -118,6 +118,8 @@ const parseData = data => {
     title: getTitleForItem(item),
     text: item.text
   }));
+
+  data.categories = data.taxonomy || [];
 
   return data;
 };
