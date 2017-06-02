@@ -64,7 +64,7 @@ class Main extends React.Component {
     }
 
     switch (this.state.selectedTab) {
-    case 'news':      return <TopStories stories={data.results} />;
+    case 'news':      return <TopStories stories={data.results} categories={data.taxonomy} />;
     case 'briefing':  return <Briefing items={data.briefingItems} />;
     case 'entities':  return <Sentiment data={data.sentiment} />;
     default:          return null;
@@ -88,7 +88,7 @@ class Main extends React.Component {
               <Icon type="loader" size="large" />
             </div>
           </div>
-        ) : (
+        ) : data ? (
           <div className="results">
             <div className="_container _container_large">
               <div className="row">
@@ -96,7 +96,7 @@ class Main extends React.Component {
               </div>
             </div>
           </div>
-        )}
+        ) : null}
       </div>
     );
   }

@@ -1254,6 +1254,7 @@ li.recharts-legend-item::before {
 
 .story--score {
   font-size: 0.9em;
+  margin-top: 0;
 }
 
 .sentiment--description {
@@ -1854,6 +1855,10 @@ input:focus, button:focus, textarea:focus {
   background-color: #fff;
   color: #9855d4;
   border-color: #fff;
+}
+
+.base--button_fill {
+  margin: 10px;
 }
 
 .query--flex-container {

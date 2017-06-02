@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import { Bar } from 'watson-react-components';
 
 const Story = props => (
   <div className="story">
@@ -20,8 +21,7 @@ const Story = props => (
       <span className="base--p story--source">
         {props.host ? props.host : 'Placeholder Source'}
       </span>
-      <span className="story--source-score-divider"> | </span>
-      <span className="story--score base--p">Score: {props.score}</span>
+      <div className="story--score base--p">Score: <Bar rangeStart={0} rangeEnd={2}  score={props.score} /></div>
     </div>
   </div>
 );
@@ -41,6 +41,9 @@ const TopStories = props => (
       <div className="widget--header">
         <h2 className="base--h2 widget--header-title">Top News</h2>
         <div className="widget--header-spacer" />
+        {props.categories.map(category => (
+          <span className="base--button base--button_fill" key={category}>{category}</span>
+        ))}
       </div>
       <div className="top-stories--list">
         {props.stories.map(item =>
@@ -60,7 +63,8 @@ const TopStories = props => (
 );
 
 TopStories.propTypes = {
-  stories: PropTypes.arrayOf(PropTypes.object).isRequired
+  stories: PropTypes.arrayOf(PropTypes.object).isRequired,
+  categories: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const getSentiment = item => {

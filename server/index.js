@@ -47,7 +47,10 @@ function createServer() {
         filter: taxonomyLabel ? `taxonomy.label:${taxonomyLabel},blekko.hostrank>500` : 'blekko.hostrank>500'
       };
 
-      return discovery.query(queryBuilder.build(queryOpts));
+      return discovery
+        .query(queryBuilder.build(queryOpts))
+        .then(response =>
+          Object.assign(response, { taxonomy: taxonomyLabel.replace(/"/g, '').split(',') }));
     })
     .catch(error => {
       // eslint-disable-next-line no-console
@@ -75,7 +78,7 @@ function constructTaxonomyLabel({ categories, query }) {
   return categories
     .reduce((result, category) => result.concat(category.label.split('/').slice(1)), [])
     .filter(category => searchQuery.indexOf(category) > -1)
-    .map(category => `"${category}"^2`)
+    .map(category => `"${category}"`)
     .join(',');
 }
 
