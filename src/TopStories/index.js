@@ -14,12 +14,14 @@ const Story = props => (
       title={props.title}
       rel="noopener noreferrer"
     >
-      {props.title}
+      {props.title} {props.sentiment}
     </a>
     <div className="story--source-and-score">
       <span className="base--p story--source">
         {props.host ? props.host : 'Placeholder Source'}
       </span>
+      <span className="story--source-score-divider"> | </span>
+      <span className="story--score base--p">Score: {props.score}</span>
     </div>
   </div>
 );
@@ -28,7 +30,9 @@ Story.propTypes = {
   title: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   host: PropTypes.string,
-  date: PropTypes.string.isRequired
+  sentiment: PropTypes.string,
+  score: PropTypes.number.isRequired,
+  date: PropTypes.number.isRequired
 };
 
 const TopStories = props => (
@@ -45,6 +49,8 @@ const TopStories = props => (
             title={item.enrichedTitle ? item.enrichedTitle.text : (item.title || 'Untitled')}
             url={item.url}
             host={item.host}
+            score={item.score}
+            sentiment={getSentiment(item)}
             date={item.blekko.chrondate}
           />)
         }
@@ -55,6 +61,14 @@ const TopStories = props => (
 
 TopStories.propTypes = {
   stories: PropTypes.arrayOf(PropTypes.object).isRequired
+};
+
+const getSentiment = item => {
+  switch (item.docSentiment.type) {
+  case 'negative': return '😡';
+  case 'positive': return '👍🏻';
+  default: return '';
+  }
 };
 
 module.exports = TopStories;

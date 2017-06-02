@@ -2,23 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { TextInput, Icon, ButtonsGroup } from 'watson-react-components';
 
-const getTabButtons = value => [{
-  selected: value === 'briefing',
-  value: 'briefing',
-  id: 'rb-2',
-  text: 'Briefing'
-}, {
-  selected: value === 'news',
-  value: 'news',
-  id: 'rb-1',
-  text: 'Top News'
-}, {
-  selected: value === 'entities',
-  value: 'entities',
-  id: 'rb-3',
-  text: 'Sentiments'
-}];
-
 export default class Search extends React.Component {
   constructor(...props) {
     super(...props);
@@ -93,3 +76,20 @@ Search.propTypes = {
   searchQuery: PropTypes.string,
   showTabs: PropTypes.bool.isRequired
 };
+
+const getTabButtons = value => [{
+  selected: value === 'news',
+  value: 'news',
+  id: 'rb-1',
+  text: 'Top News'
+}, {
+  selected: value === 'briefing',
+  value: 'briefing',
+  id: 'rb-2',
+  text: 'Briefing'
+}, {
+  selected: value === 'entities',
+  value: 'entities',
+  id: 'rb-3',
+  text: 'Sentiments'
+}];
