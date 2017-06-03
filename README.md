@@ -29,9 +29,31 @@ The slackbot is written using botkit and runs along with the backend server. It 
 
 # Getting Started
 
+## Prerequisites
+
+1. Install [nodejs](https://nodejs.org/en/) and [yarn](https://yarnpkg.com)
+2. Install the [Cloud-foundry CLI](https://github.com/cloudfoundry/cli) tool
+3. Have a [Bluemix account](https://console.ng.bluemix.net/registration/)
+
 Run the following commands in order to get started running the backend, frontend and the slackbot. For this project we are using `yarn` instead of `npm`.
 
 1. Run `yarn` to install of the dependencies
-2. Run `yarn bootstrap` to copy the `.env.sample` to `.env` and fill in the credentials in the `.env` file
-3. Start the app by running `yarn start`. If you are developing and making changes to the app and would like the server to restart every time then run `yarn start:watch`
-4. Open the browser and go to `http://localhost:3333`
+2. Run `yarn bootstrap` to copy the `.env.sample` to `.env` and fill in the credentials in the `.env` file by running the commands in the next steps.
+3. Connect to Bluemix via CLI
+```
+cf api https://api.ng.bluemix.net
+cf login
+```
+4. Create and retrieve service keys to access the Natural Language Understanding and Discovery service. Copy the credentials for each service to the `.env` file.
+```
+cf create-service natural-language-understanding free my-nlu-service
+cf create-service-key my-nlu-service myKey
+cf service-key my-nlu-service myKey
+
+cf create-service discovery free my-discovery-service
+cf create-service-key my-discovery-service myKey
+cf service-key my-discovery-service myKey
+```
+5. Create a new slack bot for your slack team by going to https://my.slack.com/services/new/bot. Enter a username for the bot and click `Add bot integration`. On the confirmation page copy the `API Token` to the `.env` file.
+6. Start the app by running `yarn start`. If you are developing and making changes to the app and would like the server to restart every time then run `yarn start:watch`
+7. Open the browser and go to `http://localhost:3333`
