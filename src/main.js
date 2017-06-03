@@ -38,8 +38,10 @@ class Main extends React.Component {
         response.json()
           .then(json => {
             this.setState({ data: parseData(json), loading: false });
-            setTimeout(() =>
-              window.scrollTo(0, document.querySelector('main').getBoundingClientRect().top), 0);
+            setTimeout(() => {
+              const scrollY = document.querySelector('main').getBoundingClientRect().top + window.scrollY;
+              window.scrollTo(0, scrollY);
+            }, 0);
           });
       } else {
         response.json()
