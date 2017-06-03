@@ -40,6 +40,7 @@ This bot demonstrates many of the core features of Botkit:
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~*/
 require('isomorphic-fetch');
+const queryString = require('query-string');
 
 if (!process.env.SLACK_BOT_TOKEN) {
   // eslint-disable-next-line no-console
@@ -117,14 +118,9 @@ controller.hears(['whats in the news', 'news please'], 'direct_message,direct_me
           if (convo.status == 'completed') {
             bot.reply(message, 'OK searching...');
 
-            fetch('https://watson-discovery-news-search.mybluemix.net/api/query', {
-              method: 'POST',
-              headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify({ query: convo.extractResponse('search-query') })
-            })
+            const qs = queryString.stringify({ query: convo.extractResponse('search-query') });
+
+            fetch(`https://watson-discovery-news-search.mybluemix.net/api/search?${qs}`)
             .then(apiResponse => {
               if (apiResponse.ok) {
                 apiResponse.json()

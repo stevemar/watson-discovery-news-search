@@ -5,18 +5,18 @@ import { Header, Jumbotron } from 'watson-react-components';
 class DefaultLayout extends React.Component {
   getDescription() {
     return (
-      <p>
-        <p>
+      <div>
+        <div>
           This is a web app to help you find News related to a specific topic using Watson Discovery Service.
-        </p>
-        <p>Try out some of the following queries:</p>
+        </div>
+        <div>Try out some of the following queries:</div>
         <ul>
           <li>Merger and Acquisition in Artificial Intelligence industry</li>
           <li>Tech IPOs</li>
           <li>Acquisition in Insurance Industry</li>
           <li>Healthcare startups</li>
         </ul>  
-      </p>
+      </div>
     );
   }
 

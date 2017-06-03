@@ -5,6 +5,7 @@ import TopStories from './TopStories';
 import Briefing from './Briefing';
 import Sentiment from './Sentiment';
 import Search from './Search';
+import queryString from 'query-string';
 
 class Main extends React.Component {
 
@@ -28,20 +29,16 @@ class Main extends React.Component {
       loading: true,
     });
 
-    fetch('/api/query', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ query: query.searchQuery })
-    })
+    scrollToMain();
+
+    const qs = queryString.stringify({ query: query.searchQuery });
+    fetch(`/api/search?${qs}`)
     .then(response => {
       if (response.ok) {
         response.json()
           .then(json => {
             this.setState({ data: parseData(json), loading: false });
-            setTimeout(() => {
-              const scrollY = document.querySelector('main').getBoundingClientRect().top + window.scrollY;
-              window.scrollTo(0, scrollY);
-            }, 0);
+            scrollToMain();
           });
       } else {
         response.json()
@@ -125,5 +122,12 @@ const parseData = data => {
 
   return data;
 };
+
+function scrollToMain() {
+  setTimeout(() => {
+    const scrollY = document.querySelector('main').getBoundingClientRect().top + window.scrollY;
+    window.scrollTo(0, scrollY);
+  }, 0);
+}
 
 module.exports = Main;

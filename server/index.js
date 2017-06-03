@@ -30,8 +30,8 @@ function createServer() {
     res.render('index', {});
   });
 
-  server.post('/api/query', (req, res, next) => {
-    const query = req.body.query;
+  server.get('/api/search', (req, res, next) => {
+    const { query } = req.query;
 
     nlu.analyze({
       text: query,
