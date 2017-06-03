@@ -2,3 +2,4 @@ name: watson-discovery-news-search
 command: npm start
 services:
   - my-discovery-service
+  - my-nlu-service
