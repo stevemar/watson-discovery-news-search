@@ -53,7 +53,7 @@ export default class Search extends React.Component {
                 </div>
               </div>
             </div>
-            <div>
+            <div className="query--text-input-container">
               {showTabs ? 
                 <ButtonsGroup
                   type="radio"
