@@ -98,8 +98,13 @@ const getTabButtons = value => [{
   id: 'rb-2',
   text: 'Briefing'
 }, {
-  selected: value === 'entities',
-  value: 'entities',
+  selected: value === 'sentiment',
+  value: 'sentiment',
   id: 'rb-3',
   text: 'Sentiments'
+}, {
+  selected: value === 'query',
+  value: 'query',
+  id: 'rb-4',
+  text: 'View Query'
 }];

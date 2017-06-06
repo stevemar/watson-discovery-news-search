@@ -18,6 +18,7 @@ module.exports = {
       sort: '-_score',
       passages: true,
       highlight: true,
+      filter: queryOpts.filter ? `${queryOpts.filter},blekko.hostrank>500` : 'blekko.hostrank>500',
       return: 'enrichedTitle.text,text,title,url,host,blekko.chrondate,blekko.hostrank,score,id,entities.text,docSentiment.type',
       aggregations
     }, queryOpts);

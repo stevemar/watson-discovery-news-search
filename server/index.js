@@ -44,7 +44,7 @@ function createServer() {
       const taxonomyLabel = constructTaxonomyLabel({ categories: response.categories, query });
       const queryOpts = {
         natural_language_query: query,
-        filter: taxonomyLabel ? `taxonomy.label:${taxonomyLabel},blekko.hostrank>500` : 'blekko.hostrank>500'
+        filter: taxonomyLabel && `taxonomy.label:${taxonomyLabel}`
       };
 
       return discovery
@@ -57,8 +57,7 @@ function createServer() {
       console.error(error);
       
       return discovery.query(queryBuilder.build({
-        natural_language_query: query,
-        filter: 'blekko.hostrank>500'
+        natural_language_query: query
       }));
     })
     .then(response => res.json(response))

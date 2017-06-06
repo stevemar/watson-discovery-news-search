@@ -1,11 +1,14 @@
 import 'isomorphic-fetch';
 import React from 'react';
 import { Icon } from 'watson-react-components';
+import queryString from 'query-string';
 import TopStories from './TopStories';
 import Briefing from './Briefing';
 import Sentiment from './Sentiment';
 import Search from './Search';
-import queryString from 'query-string';
+import Query from './Query';
+import queryBuilder from '../server/query-builder';
+import { objectWithoutProperties } from './utils';
 
 class Main extends React.Component {
 
@@ -16,7 +19,8 @@ class Main extends React.Component {
       selectedTab: 'news',
       error: null,
       data: null,
-      loading: false
+      loading: false,
+      searchQuery: ''
     };
   }
 
@@ -25,13 +29,16 @@ class Main extends React.Component {
   }
 
   fetchData(query) {
+    const { searchQuery } = query;
+
     this.setState({
       loading: true,
+      searchQuery
     });
 
     scrollToMain();
 
-    const qs = queryString.stringify({ query: query.searchQuery });
+    const qs = queryString.stringify({ query: searchQuery });
     fetch(`/api/search?${qs}`)
     .then(response => {
       if (response.ok) {
@@ -65,7 +72,20 @@ class Main extends React.Component {
     switch (this.state.selectedTab) {
     case 'news':      return <TopStories stories={data.results} categories={data.categories} />;
     case 'briefing':  return <Briefing items={data.briefingItems} />;
-    case 'entities':  return <Sentiment data={data.sentiment} />;
+    case 'sentiment': return <Sentiment data={data.sentiment} />;
+    case 'query': {
+      const taxonomy = data.categories.map(category => `"${category}"`).join(',');
+      const queryOpts = {
+        natural_language_query: this.state.searchQuery,
+        filter: taxonomy && `taxonomy.label:${taxonomy}`
+      };
+
+      return <Query
+        title="Query to and Response from the Discovery Service"
+        query={queryBuilder.build(queryOpts)}
+        response={data.rawResponse}
+      />;
+    }
     default:          return null;
     }
   }
@@ -104,6 +124,8 @@ class Main extends React.Component {
 const getTitleForItem = item => item.enrichedTitle ? item.enrichedTitle.text : (item.title || 'Untitled');
 
 const parseData = data => {
+  data.rawResponse = objectWithoutProperties(Object.assign({}, data), ['taxonomy']);
+
   data.sentiment = data.aggregations[0]
                        .results.reduce((accumulator, result) =>
                         Object.assign(accumulator, { [result.key]: result.matching_results })
