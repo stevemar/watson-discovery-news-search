@@ -1,5 +1,20 @@
-name: watson-discovery-news-search
-command: npm start
-services:
+---
+declared-services:
+  my-discovery-service:
+    label: discovery
+    plan: free
+  my-nlu-service:
+    label: natural-language-understanding
+    plan: free
+applications:
+- path: .
+  name: watson-discovery-news-search
+  command: npm start
+  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+  memory: 512M
+  instances: 1
+  disk_quota: 256M
+  random-route: true
+  services:
   - my-discovery-service
   - my-nlu-service
