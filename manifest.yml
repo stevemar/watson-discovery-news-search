@@ -10,10 +10,6 @@ applications:
 - path: .
   name: watson-discovery-news-search
   command: npm start
-  memory: 512M
-  instances: 1
-  disk_quota: 256M
-  random-route: true
   services:
   - my-discovery-service
   - my-nlu-service
