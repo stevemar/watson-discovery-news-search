@@ -10,7 +10,6 @@ applications:
 - path: .
   name: watson-discovery-news-search
   command: npm start
-  buildpack: https://github.com/cloudfoundry/nodejs-buildpack
   memory: 512M
   instances: 1
   disk_quota: 256M
