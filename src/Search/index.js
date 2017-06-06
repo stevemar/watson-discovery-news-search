@@ -22,13 +22,22 @@ export default class Search extends React.Component {
     this.props.onTabChange(event.target.value);
   }
 
+  handleInputChange(event) {
+    this.setState({
+      searchQuery: event.target.value
+    });
+  }
+
+  handleSearchPress() {
+    this.props.onSearchQueryChange({
+      searchQuery: this.state.searchQuery
+    });
+  }
+
   handleKeyPress(event) {
     const searchValue = event.target.value;
     if (event.key === 'Enter' && searchValue.match(/[^\s]+/)) {
       this.props.onSearchQueryChange({
-        searchQuery: searchValue
-      });
-      this.setState({
         searchQuery: searchValue
       });
     }
@@ -46,9 +55,10 @@ export default class Search extends React.Component {
                 <TextInput
                   placeholder="What topic are you interested in? Try some of the queries from above 👆"
                   onKeyPress={this.handleKeyPress.bind(this)}
+                  onInput={this.handleInputChange.bind(this)}
                   defaultValue={this.state.searchQuery}
                 />
-                <div className="query--icon-container">
+                <div onClick={this.handleSearchPress.bind(this)} className="query--icon-container">
                   <Icon type="search" size="regular" fill="#ffffff" />
                 </div>
               </div>
