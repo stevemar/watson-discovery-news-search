@@ -1,15 +1,5 @@
----
-declared-services:
-  my-discovery-service:
-    label: discovery
-    plan: free
-  my-nlu-service:
-    label: natural-language-understanding
-    plan: free
-applications:
-- path: .
-  name: watson-discovery-news-search
-  command: npm start
-  services:
+name: watson-discovery-news-search
+command: npm start
+services:
   - my-discovery-service
   - my-nlu-service
