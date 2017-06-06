@@ -21,7 +21,7 @@ const Story = props => (
       <span className="base--p story--source">
         {props.host ? props.host : 'Placeholder Source'}
       </span>
-      <div className="story--score base--p">Score: <Bar rangeStart={0} rangeEnd={2}  score={props.score} /></div>
+      <div className="story--score base--p">Confidence Score: <Bar rangeStart={0} rangeEnd={2}  score={props.score} /></div>
     </div>
   </div>
 );
