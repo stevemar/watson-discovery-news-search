@@ -7,10 +7,6 @@ html {
   overflow-x: hidden;
 }
 
-label {
-  cursor: pointer;
-}
-
 li.recharts-legend-item::before {
   content: none;
 }
