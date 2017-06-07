@@ -85,7 +85,7 @@ function constructTaxonomyLabel({ categories, query }) {
       category.indexOf('business') < 0 && category.indexOf('industry') < 0)
     .filter(category =>
       searchQuery.indexOf(category) > -1 ||
-      category.split(/, | /).some(word => searchQuery.indexOf(word) > -1));
+      category.split(/ and | or |, | /).some(word => searchQuery.indexOf(word) > -1));
 
   if (categoriesInQuery.length < 1) {
     categoriesInQuery = categories
