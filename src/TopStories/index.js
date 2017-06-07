@@ -68,7 +68,7 @@ TopStories.propTypes = {
 };
 
 const getSentiment = item => {
-  switch (item.docSentiment.type) {
+  switch (item.docSentiment && item.docSentiment.type) {
   case 'negative': return '😡';
   case 'positive': return '👍🏻';
   default: return '';

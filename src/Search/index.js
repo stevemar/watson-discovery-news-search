@@ -106,5 +106,5 @@ const getTabButtons = value => [{
   selected: value === 'query',
   value: 'query',
   id: 'rb-4',
-  text: 'View Query'
+  text: 'Query & Response'
 }];

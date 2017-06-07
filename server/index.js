@@ -50,7 +50,11 @@ function createServer() {
       return discovery
         .query(queryBuilder.build(queryOpts))
         .then(response =>
-          Object.assign(response, { taxonomy: taxonomyLabel.replace(/"/g, '').split(',') }));
+          Object.assign(response, taxonomyLabel ?
+            { taxonomy: taxonomyLabel.replace(/"/g, '').split(',') } :
+            {}
+          )
+        );
     })
     .catch(error => {
       // eslint-disable-next-line no-console
@@ -74,11 +78,25 @@ function createServer() {
 
 function constructTaxonomyLabel({ categories, query }) {
   const searchQuery = query.toLowerCase();
-  return categories
-    .reduce((result, category) => result.concat(category.label.split('/').slice(1)), [])
-    .filter(category => searchQuery.indexOf(category) > -1)
-    .map(category => `"${category}"`)
-    .join(',');
+  let categoriesInQuery = categories
+    .reduce((result, category) =>
+      result.concat(category.label.split('/').slice(1)), [])
+    .filter(category =>
+      category.indexOf('business') < 0 && category.indexOf('industry') < 0)
+    .filter(category =>
+      searchQuery.indexOf(category) > -1 ||
+      category.split(/, | /).some(word => searchQuery.indexOf(word) > -1));
+
+  if (categoriesInQuery.length < 1) {
+    categoriesInQuery = categories
+      .filter(category => category.score > 0.4)
+      .reduce((result, categories) =>
+        result.concat(categories.label
+                                .split('/')
+                                .slice(1)), []);
+  }
+
+  return categoriesInQuery.map(category => `"${category}"`).join(',');
 }
 
 module.exports = WatsonNewsServer;
