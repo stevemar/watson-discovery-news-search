@@ -1,5 +1,7 @@
 # Watson Discovery News Search Web App [![Build Status](https://travis-ci.org/ankurp/watson-discovery-news-search.svg?branch=master)](https://travis-ci.org/ankurp/watson-discovery-news-search)
 
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ankurp/watson-discovery-news-search)
+
 In this developer journey we will build a News Search API server that uses Watson's Natural Language Understanding and Discovery Service to get you the most relevant news articles for a search query straight in your slack channel.
 
 Once you are done with this journey you will know how to:
@@ -31,8 +33,6 @@ This repo contains code for
 * [React](https://facebook.github.io/react/) - Javascript library for building User Interfaces
 * [express](https://expressjs.com) - Most popular and minimalistic web framework for creating API and Web server
 * [yarn](https://yarnpkg.com) - Fast, reliable and secure dependency manager for node.js
-
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ankurp/watson-discovery-news-search)
 
 # Getting Started
 
