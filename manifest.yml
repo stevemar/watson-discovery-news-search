@@ -8,7 +8,7 @@ declared-services:
     plan: free
 applications:
 - path: .
-  name: watson-discovery-news-search
+  name: watson-news-search
   buildpack: sdk-for-nodejs
   memory: 512M
   instances: 1
