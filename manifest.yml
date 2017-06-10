@@ -3,9 +3,6 @@ declared-services:
   my-discovery-service:
     label: discovery
     plan: free
-  my-nlu-service:
-    label: natural-language-understanding
-    plan: free
 applications:
 - path: .
   name: watson-news-search
@@ -16,4 +13,3 @@ applications:
   random-route: true
   services:
   - my-discovery-service
-  - my-nlu-service

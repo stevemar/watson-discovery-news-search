@@ -2,12 +2,12 @@
 
 [![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ankurp/watson-discovery-news-search)
 
-In this developer journey we will build a News Search API server that uses Watson's Natural Language Understanding and Discovery Service to get you the most relevant news articles for a search query straight in your slack channel.
+In this developer journey we will build a News Search API server that uses Watson's Discovery Service to get you the most relevant news articles for a search query straight in your slack channel.
 
 Once you are done with this journey you will know how to:
 
 1. Built and run an API server with a HTML frontend written in React
-2. Configure Watson Natural Language Understanding Service and Discovery Service with the App
+2. Configure Watson Discovery Service with the App
 3. Add Slackbot to your team Slack and configure it with the app
 4. Deploy the app to IBM Bluemix using cloudfoundry CLI tool
 
@@ -22,7 +22,6 @@ This repo contains code for
 
 # Included components
 
-* [Watson Natural Language Understanding](https://www.ibm.com/watson/developercloud/natural-language-understanding.html) - Natural language processing for advanced text analysis
 * [Watson Discovery](https://www.ibm.com/watson/developercloud/discovery.html) - Rapidly build a cognitive search and content analytics engine
 
 # Featured technologies
@@ -74,21 +73,9 @@ $ yarn bootstrap
 
 Create the following services:
 
-* [Watson Natural Language Understanding](https://console.ng.bluemix.net/catalog/services/natural-language-understanding?env_id=ibm:yp:us-south)
 * [Watson Discovery](https://console.ng.bluemix.net/catalog/services/discovery?env_id=ibm:yp:us-south)
 
-
-### 4. Configure Watson Natural Language Understanding
-
-Fill in name you want to give to your service along with a name where credentials will be saved and click *Create*.
-
-![Create Natural Language Understanding Service](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/nlu-1.png)
-
-After the service is created, click on *Service credentials* and then click on *View Credentials* and copy the *username* and *password* values into the `.env` after the `=` sign for `NATURAL_LANGUAGE_UNDERSTANDING_USERNAME` and `NATURAL_LANGUAGE_UNDERSTANDING_PASSWORD` environment variables.
-
-![Natural Language Understanding Service Credentials](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/nlu-2.png)
-
-### 5. Configure Watson Discovery
+### 4. Configure Watson Discovery
 
 Fill in name you want to give to your service along with a name where credentials will be saved and click *Create*.
 
@@ -99,7 +86,7 @@ After the service is created, click on *Service credentials* and then click on *
 
 ![Discovery Service Credentials](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/discovery-2.png)
 
-### 6. Create Slackbot for your Slack Team
+### 5. Create Slackbot for your Slack Team
 
 Create a new slack bot for your slack team by going to https://my.slack.com/services/new/bot. Enter a username for the bot and click `Add bot integration`.
 
@@ -109,7 +96,7 @@ On the confirmation page copy the `API Token` to the `.env` file after the `=` s
 
 ![Slackbot Token](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/slack-2.png)
 
-### 7. Start Everything
+### 6. Start Everything
 
 Start the app by running `yarn start`. If you are developing and making changes to the app and would like the server to restart every time then run `yarn start:watch`
 
@@ -119,7 +106,7 @@ $ yarn start
 
 Open the browser and go to `http://localhost:3333`
 
-### 8. Deploy to Bluemix
+### 7. Deploy to Bluemix
 
 To deploy to Bluemix make sure you have cloud foundry CLI tool installed. Then run the following commands to connect it with Bluemix and login with your Bluemix credentials.
 
@@ -142,7 +129,7 @@ Go to the URL that is printed at the end after deployment is done and you can vi
 
 ## Backend Server
 
-Backend server is responsible for server side rendering of the views to be displayed on the browser. It is servers as an API server where the API endpoint hits Watson Natural Language Understanding service first to make sense of the search query and then forwards the category/taxonomy extract from the search query to the Watson Discovery News service to get the most relevant news stories.
+Backend server is responsible for server side rendering of the views to be displayed on the browser. It is servers as an API server where the API endpoint hits Watson Discovery News service to get the most relevant news stories.
 
 This backend is written using express and uses express-react-views engine to render views written using React.
 

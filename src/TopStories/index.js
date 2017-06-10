@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import { Bar } from 'watson-react-components';
+import { Bar, Icon } from 'watson-react-components';
 
 const Story = props => (
   <div className="story">
@@ -30,7 +30,7 @@ Story.propTypes = {
   title: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   host: PropTypes.string,
-  sentiment: PropTypes.string,
+  sentiment: PropTypes.node,
   score: PropTypes.number.isRequired,
   date: PropTypes.number.isRequired
 };
@@ -41,9 +41,6 @@ const TopStories = props => (
       <div className="widget--header">
         <h2 className="base--h2 widget--header-title">Top News</h2>
         <div className="widget--header-spacer" />
-        {props.categories.map(category => (
-          <span className="base--button base--button_fill" key={category}>{category}</span>
-        ))}
       </div>
       <div className="top-stories--list">
         {props.stories.map(item =>
@@ -63,14 +60,13 @@ const TopStories = props => (
 );
 
 TopStories.propTypes = {
-  stories: PropTypes.arrayOf(PropTypes.object).isRequired,
-  categories: PropTypes.arrayOf(PropTypes.object).isRequired
+  stories: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const getSentiment = item => {
   switch (item.docSentiment && item.docSentiment.type) {
-  case 'negative': return '😡';
-  case 'positive': return '👍🏻';
+  case 'negative': return <Icon type="thumbs-down" size="small" />;
+  case 'positive': return <Icon type="thumbs-up" size="small" />;
   default: return '';
   }
 };

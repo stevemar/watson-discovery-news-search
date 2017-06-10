@@ -21,6 +21,8 @@ class DefaultLayout extends React.Component {
   }
 
   render() {
+    const { hideHeader } = this.props;
+
     return (
       <html>
         <head>
@@ -34,21 +36,23 @@ class DefaultLayout extends React.Component {
           <link rel="stylesheet" type="text/css" href="/css/application.css"/>
         </head>
         <body>
-          <Header
-            mainBreadcrumbs="Discover"
-            mainBreadcrumbsUrl="http://www.ibm.com/watson/developercloud/discovery.html"
-            subBreadcrumbs="News Search"
-            subBreadcrumbsUrl=""
-          />
-          <Jumbotron
-            serviceName="News using Watson Discovery Service"
-            repository=""
-            documentation="http://www.ibm.com/watson/developercloud/doc/discovery/index.html"
-            apiReference="http://www.ibm.com/watson/developercloud/discovery/api"
-            startInBluemix=""
-            version="GA"
-            description={this.getDescription()}
-          />
+          {!hideHeader && <div>
+            <Header
+              mainBreadcrumbs="Discover"
+              mainBreadcrumbsUrl="http://www.ibm.com/watson/developercloud/discovery.html"
+              subBreadcrumbs="News Search"
+              subBreadcrumbsUrl=""
+            />
+            <Jumbotron
+              serviceName="News using Watson Discovery Service"
+              repository=""
+              documentation="http://www.ibm.com/watson/developercloud/doc/discovery/index.html"
+              apiReference="http://www.ibm.com/watson/developercloud/discovery/api"
+              startInBluemix=""
+              version="GA"
+              description={this.getDescription()}
+            />
+          </div>}
           <main>{this.props.children}</main>
           <script
             type="text/javascript"
@@ -63,6 +67,7 @@ class DefaultLayout extends React.Component {
 }
 
 DefaultLayout.propTypes = {
+  hideHeader: PropTypes.bool,
   description: PropTypes.string,
   children: PropTypes.node.isRequired,
   initialData: PropTypes.string.isRequired

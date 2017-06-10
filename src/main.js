@@ -1,5 +1,6 @@
 import 'isomorphic-fetch';
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Icon } from 'watson-react-components';
 import queryString from 'query-string';
 import TopStories from './TopStories';
@@ -8,19 +9,19 @@ import Sentiment from './Sentiment';
 import Search from './Search';
 import Query from './Query';
 import queryBuilder from '../server/query-builder';
-import { objectWithoutProperties } from './utils';
 
 class Main extends React.Component {
 
   constructor(...props) {
     super(...props);
+    const { data, searchQuery } = this.props;
 
     this.state = {
       selectedTab: 'news',
       error: null,
-      data: null,
+      data: data && parseData(data),
       loading: false,
-      searchQuery: ''
+      searchQuery: searchQuery || ''
     };
   }
 
@@ -37,6 +38,7 @@ class Main extends React.Component {
     });
 
     scrollToMain();
+    history.pushState({}, {}, `/${searchQuery.replace(/ /g, '+')}`);
 
     const qs = queryString.stringify({ query: searchQuery });
     fetch(`/api/search?${qs}`)
@@ -70,28 +72,22 @@ class Main extends React.Component {
     }
 
     switch (this.state.selectedTab) {
-    case 'news':      return <TopStories stories={data.results} categories={data.categories} />;
+    case 'news':      return <TopStories stories={data.results} />;
     case 'briefing':  return <Briefing items={data.briefingItems} />;
     case 'sentiment': return <Sentiment data={data.sentiment} />;
-    case 'query': {
-      const taxonomy = data.categories.map(category => `"${category}"`).join(',');
-      const queryOpts = {
-        natural_language_query: this.state.searchQuery,
-        filter: taxonomy && `taxonomy.label:${taxonomy}`
-      };
-
-      return <Query
-        title="Query to and Response from the Discovery Service"
-        query={queryBuilder.build(queryOpts)}
-        response={data.rawResponse}
-      />;
-    }
+    case 'query':     return <Query
+                              title="Query to and Response from the Discovery Service"
+                              query={queryBuilder.build({
+                                natural_language_query: this.state.searchQuery
+                              })}
+                              response={data.rawResponse}
+                            />;
     default:          return null;
     }
   }
 
   render() {
-    const { selectedTab, loading, data } = this.state;
+    const { selectedTab, loading, data, searchQuery } = this.state;
 
     return (
       <div>
@@ -100,6 +96,7 @@ class Main extends React.Component {
           onSearchQueryChange={this.fetchData.bind(this)}
           selectedTab={selectedTab}
           showTabs={!loading && Boolean(data)}
+          searchQuery={searchQuery}
         />
         {loading ? (
           <div className="results">
@@ -121,29 +118,27 @@ class Main extends React.Component {
   }
 }
 
+Main.propTypes = {
+  data: PropTypes.object,
+  searchQuery: PropTypes.string
+};
+
 const getTitleForItem = item => item.enrichedTitle ? item.enrichedTitle.text : (item.title || 'Untitled');
 
-const parseData = data => {
-  data.rawResponse = objectWithoutProperties(Object.assign({}, data), ['taxonomy']);
-
-  data.sentiment = data.aggregations[0]
-                       .results.reduce((accumulator, result) =>
-                        Object.assign(accumulator, { [result.key]: result.matching_results })
-                       , {});
-
-  const uniqResultsObj = data.results.reduce((result, item) =>
-    Object.assign(result, { [getTitleForItem(item)]: item }), {});
-  data.results = Object.keys(uniqResultsObj).map(title => uniqResultsObj[title]);
-
-  data.briefingItems = data.results.map(item => ({
-    title: getTitleForItem(item),
-    text: item.text
-  }));
-
-  data.categories = data.taxonomy || [];
-
-  return data;
-};
+const parseData = data => ({
+  rawResponse: Object.assign({}, data),
+  sentiment: data
+    .aggregations[0]
+    .results.reduce((accumulator, result) =>
+      Object.assign(accumulator, { [result.key]: result.matching_results }), {}),
+  results: data.results,
+  briefingItems: data
+    .results
+    .map(item => ({
+      title: getTitleForItem(item),
+      text: item.text
+    }))
+});
 
 function scrollToMain() {
   setTimeout(() => {
