@@ -1,6 +1,6 @@
-# Watson Discovery News Search Web App [![Build Status](https://travis-ci.org/ankurp/watson-discovery-news-search.svg?branch=master)](https://travis-ci.org/ankurp/watson-discovery-news-search)
+# Watson Discovery News Search Web App [![Build Status](https://travis-ci.org/IBM/watson-discovery-news-search.svg?branch=master)](https://travis-ci.org/IBM/watson-discovery-news-search)
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ankurp/watson-discovery-news-search)
+[![Deploy to Bluemix](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/IBM/watson-discovery-news-search)
 
 In this developer journey we will build a News Search API server that uses Watson's Discovery Service to get you the most relevant news articles for a search query straight in your slack channel.
 
@@ -18,7 +18,7 @@ This repo contains code for
 2. Backend Web and API Server built using express
 3. Slackbot built using botkit
 
-![Architecture Diagram](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/architecture.png)
+![Architecture Diagram](https://raw.githubusercontent.com/IBM/watson-discovery-news-search/master/docs/architecture.png)
 
 # Included components
 
@@ -51,7 +51,7 @@ Make sure before you start you have the following tasks done:
 Clone the repo by running the following command in the terminal and go into that directory.
 
 ```sh
-$ git clone https://github.com/ankurp/watson-discovery-news-search/
+$ git clone https://github.com/IBM/watson-discovery-news-search/
 $ cd watson-discovery-news-search
 ```
 
@@ -79,22 +79,22 @@ Create the following services:
 
 Fill in name you want to give to your service along with a name where credentials will be saved and click *Create*.
 
-![Create Discovery Service Service](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/discovery-1.png)
+![Create Discovery Service Service](https://raw.githubusercontent.com/IBM/watson-discovery-news-search/master/docs/discovery-1.png)
 
 
 After the service is created, click on *Service credentials* and then click on *View Credentials* and copy the *username* and *password* values into the `.env` after the `=` sign for `DISCOVERY_SERVICE_USERNAME` and `DISCOVERY_SERVICE_PASSWORD` environment variables.
 
-![Discovery Service Credentials](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/discovery-2.png)
+![Discovery Service Credentials](https://raw.githubusercontent.com/IBM/watson-discovery-news-search/master/docs/discovery-2.png)
 
 ### 5. Create Slackbot for your Slack Team
 
 Create a new slack bot for your slack team by going to https://my.slack.com/services/new/bot. Enter a username for the bot and click `Add bot integration`.
 
-![Create Slackbot](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/slack-1.png)
+![Create Slackbot](https://raw.githubusercontent.com/IBM/watson-discovery-news-search/master/docs/slack-1.png)
 
 On the confirmation page copy the `API Token` to the `.env` file after the `=` sign for `SLACK_BOT_TOKEN`.
 
-![Slackbot Token](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/slack-2.png)
+![Slackbot Token](https://raw.githubusercontent.com/IBM/watson-discovery-news-search/master/docs/slack-2.png)
 
 ### 6. Start Everything
 
@@ -123,7 +123,7 @@ $ cf push
 
 Go to the URL that is printed at the end after deployment is done and you can view the app and now the chat bot should be active in your Team Slack and you can message to and ask for news by typing `news please`
 
-![Chatting with Slackbot](https://raw.githubusercontent.com/ankurp/watson-discovery-news-search/master/docs/slack-3.png)
+![Chatting with Slackbot](https://raw.githubusercontent.com/IBM/watson-discovery-news-search/master/docs/slack-3.png)
 
 # Architecture
 
