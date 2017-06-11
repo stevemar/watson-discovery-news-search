@@ -3,7 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "main": "index.js",
-  "license": "MIT",
+  "license": "Apache-2.0",
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/IBM/watson-discovery-news-search.git"
+  },
   "scripts": {
     "start": "node index.js",
     "start:watch": "nodemon index.js",
