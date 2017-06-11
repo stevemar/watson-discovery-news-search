@@ -1,6 +1,10 @@
 # Promises over Callbacks
 
-Promises are a great feature in Javascript that allows you to avoid [callback hell](http://callbackhell.com) especially when you need to wait on response from multiple API request which are asynchronous. Having used the [Discovery node SDK](https://github.com/watson-developer-cloud/node-sdk) for the [Discovery News Search Slack Bot App](https://github.com/ankurp/watson-discovery-news-search) I noticed the APIs relied heavily on the callbacks instead of promises, where the callback gets passed `error` as the first argument and `response` as the second. We then need to check if `error` it not `undefined` or `null` and before we can use the `response`. 
+Promises are a great feature in Javascript that allows you to avoid [callback hell](http://callbackhell.com) especially when you need to wait on response from multiple API request which are asynchronous. The ability to chain Promises and wait for one async request to finish before performing another async request or waiting for multiple async requests to finish before moving forward can easily be solved in an elegant way using Promises.
+
+## The Problem
+
+In the developer journey of making a [Discovery News Search Slack Bot App](https://github.com/ankurp/watson-discovery-news-search) using the [Discovery node SDK](https://github.com/watson-developer-cloud/node-sdk),  I noticed the APIs relied heavily on the callbacks instead of promises, where the callback gets passed `error` as the first argument and `response` as the second. We then need to check if `error` is not `undefined` or `null` and before we can use the `response`. 
 
 This pattern can results in a lot of nested callbacks and huge callback function body since we need to handle both success and error states in this callback function making the code harder to read and follow.
 
@@ -21,14 +25,11 @@ discovery.getEnvironments({}, (error, response) => {
   } else {
     
     // Find the environemnt id for News collection
-    const news_environment_id = response.environments.find((environment) => {
-      return environment.read_only == true;
-    }).environment_id;
+    const news_environment_id = response.environments
+      .find(env => env.read_only == true).environment_id;
 
     // Get the New collection ID using the environment
-    discovery.getCollections({
-      environment_id: news_environment_id
-    }, (error, response) => {
+    discovery.getCollections({ environment_id: news_environment_id }, (error, response) => {
       if (error) {
         console.error(error);
       } else {
@@ -53,7 +54,9 @@ discovery.getEnvironments({}, (error, response) => {
 });
 ```
 
-To fix this we can use a javascript Promise library called `bluebird` which can convert callback based API's to return promises instead. So now we can use `then` and `catch` to seperate success and error cases and simplify the flow of our code as seen below.
+## Promises and bluebird to the Rescue
+
+To fix this antipattern, we can use Javascript Promises along with a library called [bluebird](http://bluebirdjs.com/) which provides higher level abstraction around promises. The library is great in that it provides us with ability to wait on multiple promises before firing a callback or helps us wrap callback based API's that get passed error and success response as arguments into Promises that we can chain instead. Below is the same code as above but it wraps some of the functions in the Discovery API to return promises instead using the `promisify` factory method.
 
 ```js
 const DiscoveryV1 = require('watson-developer-cloud/discovery/v1');
@@ -105,9 +108,11 @@ discovery.getEnvironments({})
 .catch(error => console.error(error));
 ```
 
-As seen in the code above we have only one level of nesting vs the 6 levels of nesting and we were able to seperate out the success from the error case in our code making the flow easy to understand.
+## Less nesting and straightforward data flow
 
-Another benefit of using promises is that if you return a promise inside of a `then` block for a promise the next `then` block will only gets called when that returned promise inside of the previous `then` block resolves as such:
+As seen in the `promisified` code, we have only one level of nesting versus six levels of nesting. Another benefit is seperation of the success worflow from the error one making our code easy to follow and debug.
+
+Another benefit of using promises is that if you return a promise inside of a `then` block, then it waits for that promise to resolve before invoking the next `then` block with the response containing the resolved value of the promise that was returned:
 
 ```js
 .then(response => {
@@ -126,5 +131,9 @@ Another benefit of using promises is that if you return a promise inside of a `t
 // then block
 .then(response => console.log(response));
 ```
+
+## Conclusion
+
+Use promises over callback and if the API you are using does not support it use a library like `bluebird` which can help you wrap the API to return a promise instead.
 
 I hope this helps simpily your use of the Discovery API and shows you an example of where Javascript Promises can be used to simiply the workflow in your code.
