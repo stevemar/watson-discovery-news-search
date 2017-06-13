@@ -1080,3 +1080,8 @@ input[type="radio"]:checked+label.buttons-group--button {
         width: 100%;
     }
 }
+
+.loader--container {
+    text-align: center;
+    padding: 3rem;
+}
