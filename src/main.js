@@ -14,11 +14,11 @@ class Main extends React.Component {
 
   constructor(...props) {
     super(...props);
-    const { data, searchQuery } = this.props;
+    const { data, searchQuery, error } = this.props;
 
     this.state = {
       selectedTab: 'news',
-      error: null,
+      error: error,
       data: data && parseData(data),
       loading: false,
       searchQuery: searchQuery || ''
@@ -44,23 +44,23 @@ class Main extends React.Component {
     fetch(`/api/search?${qs}`)
     .then(response => {
       if (response.ok) {
-        response.json()
-          .then(json => {
-            this.setState({ data: parseData(json), loading: false });
-            scrollToMain();
-          });
+        return response.json();
       } else {
-        response.json()
-        .then(error => this.setState({ error, loading: false }))
-        .catch(errorMessage => {
-          // eslint-disable-next-line no-console
-          console.error(errorMessage);
-          this.setState({
-            error: { error: 'There was a problem with the request, please try again' },
-            loading: false,
-          });
-        });
+        throw response;
       }
+    })
+    .then(json => {
+      this.setState({ data: parseData(json), loading: false, error: null });
+      scrollToMain();
+    })
+    .catch(response => {
+      this.setState({
+        error: (response.status === 429) ? 'Number of free queries per month exceeded' : 'Error fetching results',
+        loading: false,
+        data: null
+      });
+      // eslint-disable-next-line no-console
+      console.error(response);
     });
   }
 
@@ -87,7 +87,7 @@ class Main extends React.Component {
   }
 
   render() {
-    const { selectedTab, loading, data, searchQuery } = this.state;
+    const { selectedTab, loading, data, error, searchQuery } = this.state;
 
     return (
       <div>
@@ -112,6 +112,14 @@ class Main extends React.Component {
               </div>
             </div>
           </div>
+        ) : error ? (
+          <div className="results">
+            <div className="_container _container_large">
+              <div className="row">
+                {JSON.stringify(error)}
+              </div>
+            </div>
+          </div>
         ) : null}
       </div>
     );
@@ -120,7 +128,8 @@ class Main extends React.Component {
 
 Main.propTypes = {
   data: PropTypes.object,
-  searchQuery: PropTypes.string
+  searchQuery: PropTypes.string,
+  error: PropTypes.object
 };
 
 const getTitleForItem = item => item.enrichedTitle ? item.enrichedTitle.text : (item.title || 'Untitled');

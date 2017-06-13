@@ -29,32 +29,40 @@ function createServer() {
     res.render('index', {});
   });
 
-  server.get('/api/search', (req, res, next) => {
+  server.get('/api/search', (req, res) => {
     const { query } = req.query;
 
     discovery.query(queryBuilder.build({ natural_language_query: query }))
       .then(response => res.json(response))
-      .catch(next);
+      .catch(error => {
+        if (error.message === 'Number of free queries per month exceeded') {
+          res.status(429).json(error);
+        } else {
+          res.status(error.code).json(error);
+        }
+      });
   });
 
-  server.get('/:searchQuery', function(req, res, next){
+  server.get('/:searchQuery', function(req, res){
     const searchQuery = req.params.searchQuery.replace(/\+/g, ' ');
 
     const qs = queryString.stringify({ query: searchQuery });
     fetch(`http://localhost:${process.env.PORT}/api/search?${qs}`)
-    .then(response => {
-      if (response.ok) {
-        response.json()
-          .then(json => {
-            res.render('index', { data: json, searchQuery });
-          })
-          .catch(next);
-      } else {
-        response.json()
-          .then(next)
-          .catch(next);
-      }
-    });
+      .then(response => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw response;
+        }
+      })
+      .then(json => {
+        res.render('index', { data: json, searchQuery, error: null });
+      })
+      .catch(response => {
+        res.status(response.status).render('index', {
+          error: (response.status === 429) ? 'Number of free queries per month exceeded' : 'Error fetching data'
+        });
+      });
   });
 
   return server;
